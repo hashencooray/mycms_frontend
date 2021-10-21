@@ -22,3 +22,46 @@ export const addNewUser = (data) => {
             })
             .catch( err => console.error(err));
 }
+
+export const editUser = (userId, data) => {
+
+    const requestOptions = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    }
+
+    return fetch( API_BASE_URL+ `user/${userId}`, requestOptions)
+            .then( res => res.json() )
+            .then(data => {
+                if (data.ok){
+                    return true;
+                }else{
+                    return false;
+                }
+            })
+            .catch( err => console.error(err));
+}
+
+export const deleteUser = (userId) => {
+
+    const requestOptions = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+
+    return fetch( API_BASE_URL+ `user/delete/${userId}`, requestOptions)
+            .then( res => res.json() )
+            .then(data => {
+                if (data.ok){
+                    return true;
+                }else{
+                    return false;
+                }
+            })
+            .catch( err => console.error(err));
+}

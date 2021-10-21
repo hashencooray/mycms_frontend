@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import AddEditUser from "./AddEditUser";
+import AddUser from "./AddUser";
+import DeleteUser from "./DeleteUser";
+import EditUser from "./EditUser";
 import Header from "./Header";
 
 export default function Router() {
@@ -8,7 +10,13 @@ export default function Router() {
     <BrowserRouter>
       <Switch>
           <Route exact path="/user/add">
-            <AddEditUser />
+            <AddUser />
+          </Route>
+          <Route exact path="/user/edit">
+            <EditUser />
+          </Route>
+          <Route exact path="/user/delete">
+            <DeleteUser />
           </Route>
           <Route exact path="/user/header">
             <Header />

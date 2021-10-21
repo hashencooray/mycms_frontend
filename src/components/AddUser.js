@@ -17,7 +17,7 @@ const useStyles = makeStyles( theme => ({
 }));
 
 
-export default function AddEditUser() {
+export default function AddUser(props) {
 
     const initial_val = {
         name:"",
