@@ -12,10 +12,9 @@ export const addNewUser = (data) => {
     }
 
     return fetch( API_BASE_URL+ `user/add/`, requestOptions)
-            .then( res => res.json() )
-            .then(data => {
-                if (data.ok){
-                    return true;
+            .then(res => {
+                if (res.ok){
+                    return res.json();
                 }else{
                     return false;
                 }
@@ -34,10 +33,9 @@ export const editUser = (userId, data) => {
     }
 
     return fetch( API_BASE_URL+ `user/${userId}`, requestOptions)
-            .then( res => res.json() )
-            .then(data => {
-                if (data.ok){
-                    return true;
+            .then(res => {
+                if (res.ok){
+                    return res.json();
                 }else{
                     return false;
                 }
@@ -55,9 +53,8 @@ export const deleteUser = (userId) => {
     }
 
     return fetch( API_BASE_URL+ `user/delete/${userId}`, requestOptions)
-            .then( res => res.json() )
-            .then(data => {
-                if (data.ok){
+            .then(res => {
+                if (res.ok){
                     return true;
                 }else{
                     return false;
