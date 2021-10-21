@@ -20,7 +20,7 @@ export default function DeleteUser(props) {
 
     const classes = useStyles();
     const [error, setError] = useState("");
-    const {userId, open=true, setOpen} = props;
+    const {userId, open, setOpen} = props;
 
     const handleClose = () => {
         setOpen(false);

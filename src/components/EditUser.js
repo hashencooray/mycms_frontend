@@ -26,7 +26,7 @@ export default function EditUser(props) {
     const classes = useStyles();
     const [values, setValues] = useState(initial_val);
     const [error, setError] = useState("");
-    const {userId, open=true, setOpen} = props;
+    const {userId, open, setOpen} = props;
 
     const handleClose = () => {
         setOpen(false);
