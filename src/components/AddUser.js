@@ -26,7 +26,7 @@ export default function AddUser(props) {
 
     const classes = useStyles();
     const [values, setValues] = useState(initial_val);
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const [error, setError] = useState("");
 
     const handleClose = () => {

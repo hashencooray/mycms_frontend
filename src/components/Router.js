@@ -9,6 +9,7 @@ import UsersTable from "./UsersTable";
 export default function Router() {
   return (
     <BrowserRouter>
+      <Header />
       <Switch>
           <Route exact path="/user/add">
             <AddUser />
@@ -19,10 +20,7 @@ export default function Router() {
           <Route exact path="/user/delete">
             <DeleteUser />
           </Route>
-          <Route exact path="/user/header">
-            <Header />
-          </Route>
-          <Route exact path="/user/users-table">
+          <Route exact path="/user/users">
             <UsersTable />
           </Route>
       </Switch>
