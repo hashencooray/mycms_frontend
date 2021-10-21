@@ -1,5 +1,5 @@
-import { Button, IconButton, makeStyles, TextField } from '@material-ui/core';
-import React, { useState } from 'react';
+import { Button, IconButton, makeStyles, TextField, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 import Popup from './basic/Popup';
 import {addNewUser} from '../services/userService';
 import AddIcon from '@material-ui/icons/Add';
@@ -33,6 +33,21 @@ export default function AddUser(props) {
         setOpen(false);
     }
 
+    useEffect( async () => {
+        const res = await addNewUser({
+            name: "frontend1",
+            age: 25
+        });
+        if(res){
+            setOpen(false);
+            setError("");
+            setValues(initial_val);
+        }
+        else{
+            setError("User creation failed.");
+        }
+    }, [])
+
     const handleAddUser = async () => {
         const res = await addNewUser(values);
         if(res){
@@ -64,6 +79,12 @@ export default function AddUser(props) {
     return (
         <div>
             <Popup title="Add New User" actions={actions} open={open} setOpen={setOpen}>
+                {error !== "" && (
+                    <Typography variant="caption">
+                        {error}
+                    </Typography>
+                )}
+                
                 <form className={classes.form}>
                     <TextField className={classes.inputs} value={values.name} onChange={(e) => setValues({...values, name: e.target.value})} label="Name" variant="outlined" />
                     <TextField className={classes.inputs} value={values.age} onChange={handleAge} label="age" variant="outlined" />

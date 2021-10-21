@@ -6,12 +6,13 @@ export const addNewUser = (data) => {
     const requestOptions = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
         },
         body: JSON.stringify(data)
     }
 
-    return fetch( API_BASE_URL+ `user/add/`, requestOptions)
+    return fetch( API_BASE_URL+ `user/new/`, requestOptions)
             .then(res => {
                 if (res.ok){
                     return res.json();
