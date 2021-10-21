@@ -1,4 +1,4 @@
-import { Button, IconButton, makeStyles, TextField, Typography } from '@material-ui/core';
+import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import Popup from './basic/Popup';
 import {addNewUser} from '../services/userService';
@@ -33,7 +33,7 @@ export default function AddUser(props) {
         setOpen(false);
     }
 
-    useEffect( async () => {
+    const test_function = async () => {
         const res = await addNewUser({
             name: "frontend1",
             age: 25
@@ -46,7 +46,11 @@ export default function AddUser(props) {
         else{
             setError("User creation failed.");
         }
-    }, [])
+    }
+
+    useEffect(() => {
+        test_function();
+    })
 
     const handleAddUser = async () => {
         const res = await addNewUser(values);
@@ -61,7 +65,7 @@ export default function AddUser(props) {
     }
 
     const handleAge = (e) => {
-        if( e.target.value == ""){
+        if( e.target.value === ""){
             setValues({...values, age: 0});
         }
         else if( !isNaN(e.target.value)){

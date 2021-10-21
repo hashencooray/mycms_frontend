@@ -1,4 +1,4 @@
-import { Button, IconButton, makeStyles, TextField } from '@material-ui/core';
+import { Button,  makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import Popup from './basic/Popup';
 import {deleteUser} from '../services/userService';
@@ -47,6 +47,11 @@ export default function DeleteUser(props) {
     return (
         <div>
             <Popup title="Delete User" actions={actions} open={open} setOpen={setOpen}>
+                {error !== "" && (
+                    <Typography variant="caption">
+                        {error}
+                    </Typography>
+                )}
                 <form className={classes.form}>
                     Are you sure?
                 </form>
