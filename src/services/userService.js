@@ -1,6 +1,26 @@
 import {API_BASE_URL} from '../config/appConfig';
 
 
+export const allUsers = () => {
+
+    const requestOptions = {
+        method: "GET",
+        headers : {
+            "Content-Type": "application/json"
+        }
+    }
+
+    return fetch( API_BASE_URL+ `users`, requestOptions)
+            .then( async res => {
+                if (res.ok){
+                    return await res.json();
+                }else{
+                    return false;
+                }
+            })
+            .catch( err => console.error(err));
+}
+
 export const addNewUser = (data) => {
 
     const requestOptions = {
@@ -12,7 +32,7 @@ export const addNewUser = (data) => {
         body: JSON.stringify(data)
     }
 
-    return fetch( API_BASE_URL+ `user/new/`, requestOptions)
+    return fetch( API_BASE_URL+ `user/new`, requestOptions)
             .then(res => {
                 if (res.ok){
                     return res.json();

@@ -1,7 +1,7 @@
 import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import Popup from './basic/Popup';
-import {addNewUser} from '../services/userService';
+import {addNewUser, allUsers} from '../services/userService';
 import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles( theme => ({
@@ -34,7 +34,7 @@ export default function AddUser(props) {
     }
 
     const test_function = async () => {
-        const res = await addNewUser({
+        const res = await allUsers({
             name: "frontend1",
             age: 25
         });
