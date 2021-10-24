@@ -1,7 +1,6 @@
 import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import Popup from './basic/Popup';
-import {editUser} from '../services/userService';
 
 const useStyles = makeStyles( theme => ({
     form:{
@@ -26,14 +25,14 @@ export default function EditUser(props) {
     const classes = useStyles();
     const [values, setValues] = useState(initial_val);
     const [error, setError] = useState("");
-    const {userId, open, setOpen} = props;
+    const {open, setOpen, handleEditUser} = props;
 
     const handleClose = () => {
         setOpen(false);
     }
 
-    const handleEditUser = async () => {
-        const res = await editUser(userId,values);
+    const handleEdit = async () => {
+        const res = await handleEditUser(values);
         if(res){
             setOpen(false);
             setError("");
@@ -56,7 +55,7 @@ export default function EditUser(props) {
     const actions = (
         <>
             <Button variant="contained" color="secondary" onClick={handleClose}>Cancel</Button>
-            <Button variant="contained" onClick={handleEditUser} color="primary">Save</Button>
+            <Button variant="contained" onClick={handleEdit} color="primary">Save</Button>
         </>
     )
 

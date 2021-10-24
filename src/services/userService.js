@@ -1,49 +1,40 @@
 import {API_BASE_URL} from '../config/appConfig';
 
 
-export const allUsers = () => {
+export const allUsers = async () => {
 
     const requestOptions = {
-        method: "GET",
-        headers : {
-            "Content-Type": "application/json"
-        }
+        method: "GET"
     }
 
-    return fetch( API_BASE_URL+ `users`, requestOptions)
-            .then( async res => {
-                if (res.ok){
-                    return await res.json();
-                }else{
-                    return false;
-                }
-            })
-            .catch( err => console.error(err));
+    const res =await fetch( API_BASE_URL+ `users`, requestOptions)
+    console.log(res.status)
+    if (res.ok){
+        return await res.json();
+    }else{
+        return false;
+    }
 }
 
-export const addNewUser = (data) => {
+export const addNewUser = async (data) => {
 
     const requestOptions = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
     }
 
-    return fetch( API_BASE_URL+ `user/new`, requestOptions)
-            .then(res => {
-                if (res.ok){
-                    return res.json();
-                }else{
-                    return false;
-                }
-            })
-            .catch( err => console.error(err));
+    const res = await fetch( API_BASE_URL+ `user/new`, requestOptions)
+    if (res.ok){
+        return await res.json();
+    }else{
+        return false;
+    }
 }
 
-export const editUser = (userId, data) => {
+export const editUser = async (userId, data) => {
 
     const requestOptions = {
         method: "PATCH",
@@ -53,18 +44,15 @@ export const editUser = (userId, data) => {
         body: JSON.stringify(data)
     }
 
-    return fetch( API_BASE_URL+ `user/${userId}`, requestOptions)
-            .then(res => {
-                if (res.ok){
-                    return res.json();
-                }else{
-                    return false;
-                }
-            })
-            .catch( err => console.error(err));
+    const res = await fetch( API_BASE_URL+ `user/${userId}`, requestOptions);
+    if (res.ok){
+        return await res.json();
+    }else{
+        return false;
+    }
 }
 
-export const deleteUser = (userId) => {
+export const deleteUser = async (userId) => {
 
     const requestOptions = {
         method: "DELETE",
@@ -73,13 +61,10 @@ export const deleteUser = (userId) => {
         }
     }
 
-    return fetch( API_BASE_URL+ `user/delete/${userId}`, requestOptions)
-            .then(res => {
-                if (res.ok){
-                    return true;
-                }else{
-                    return false;
-                }
-            })
-            .catch( err => console.error(err));
+    const res =  fetch( API_BASE_URL+ `user/${userId}`, requestOptions);
+    if (res.ok){
+        return true;
+    }else{
+        return false;
+    }
 }
