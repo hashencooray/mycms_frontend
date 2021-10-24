@@ -1,7 +1,6 @@
-import { Button,  makeStyles, Typography } from '@material-ui/core';
+import { Button,  Grid,  makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import Popup from './basic/Popup';
-import {deleteUser} from '../services/userService';
 
 const useStyles = makeStyles( theme => ({
     form:{
@@ -20,14 +19,14 @@ export default function DeleteUser(props) {
 
     const classes = useStyles();
     const [error, setError] = useState("");
-    const {userId, open, setOpen} = props;
+    const {open, setOpen, handleDeleteUser} = props;
 
     const handleClose = () => {
         setOpen(false);
     }
 
-    const handleDeleteUser = async () => {
-        const res = await deleteUser(userId);
+    const handleDelete = async () => {
+        const res = await handleDeleteUser();
         if(res){
             setOpen(false);
             setError("");
@@ -40,7 +39,7 @@ export default function DeleteUser(props) {
     const actions = (
         <>
             <Button variant="contained"  onClick={handleClose} color="primary">Cancel</Button>
-            <Button variant="contained" color="secondary" onClick={handleDeleteUser}>Delete</Button>
+            <Button variant="contained" color="secondary" onClick={handleDelete}>Delete</Button>
         </>
     )
 
@@ -48,9 +47,11 @@ export default function DeleteUser(props) {
         <div>
             <Popup title="Delete User" actions={actions} open={open} setOpen={setOpen}>
                 {error !== "" && (
-                    <Typography variant="caption">
-                        {error}
-                    </Typography>
+                    <Grid container>
+                        <Typography style={{width:"100%", textAlign:"center", marginBottom:10, padding:10, background: "#ff9999", color: "red"}} variant="caption">
+                            {error}
+                        </Typography>
+                    </Grid>
                 )}
                 <form className={classes.form}>
                     Are you sure?

@@ -1,17 +1,16 @@
 import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Popup from './basic/Popup';
-import {addNewUser, allUsers} from '../services/userService';
 import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles( theme => ({
+    
     form:{
         display:"flex",
-        flexDirection:"column"
-    },
-
-    inputs:{
-        marginTop:10,
+        flexDirection:"column",
+        '& > *': {
+            margin: theme.spacing(1),
+        }
     }
 
 }));
@@ -28,32 +27,14 @@ export default function AddUser(props) {
     const [values, setValues] = useState(initial_val);
     const [open, setOpen] = useState(false);
     const [error, setError] = useState("");
+    const {handleAddUser} = props;
 
     const handleClose = () => {
         setOpen(false);
     }
 
-    const test_function = async () => {
-        const res = await allUsers({
-            name: "frontend1",
-            age: 25
-        });
-        if(res){
-            setOpen(false);
-            setError("");
-            setValues(initial_val);
-        }
-        else{
-            setError("User creation failed.");
-        }
-    }
-
-    useEffect(() => {
-        test_function();
-    })
-
-    const handleAddUser = async () => {
-        const res = await addNewUser(values);
+    const handleAddNewUser = async () => {
+        const res =await handleAddUser(values);
         if(res){
             setOpen(false);
             setError("");
@@ -76,7 +57,7 @@ export default function AddUser(props) {
     const actions = (
         <>
             <Button variant="contained" color="secondary" onClick={handleClose}>Cancel</Button>
-            <Button variant="contained" onClick={handleAddUser} color="primary">Add</Button>
+            <Button variant="contained" onClick={handleAddNewUser} color="primary">Add</Button>
         </>
     )
 
@@ -91,7 +72,7 @@ export default function AddUser(props) {
                 
                 <form className={classes.form}>
                     <TextField className={classes.inputs} value={values.name} onChange={(e) => setValues({...values, name: e.target.value})} label="Name" variant="outlined" />
-                    <TextField className={classes.inputs} value={values.age} onChange={handleAge} label="age" variant="outlined" />
+                    <TextField id="age" className={classes.inputs} value={values.age} onChange={handleAge} label="age" variant="outlined" />
                 </form>
             </Popup>
 

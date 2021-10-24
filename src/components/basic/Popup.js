@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles( theme => ({
     root:{
-        minWidth: 500
+        minWidth: 300
     }
 }));
 
