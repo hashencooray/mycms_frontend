@@ -26,7 +26,7 @@ export const addNewUser = async (data) => {
         body: JSON.stringify(data)
     }
 
-    const res = await fetch( API_BASE_URL+ `user`, requestOptions)
+    const res = await fetch( API_BASE_URL+ `users`, requestOptions)
     if (res.ok){
         return await res.json();
     }else{
@@ -44,7 +44,7 @@ export const editUser = async (userId, data) => {
         body: JSON.stringify(data)
     }
 
-    const res = await fetch( API_BASE_URL+ `user/${userId}`, requestOptions);
+    const res = await fetch( API_BASE_URL+ `users/${userId}`, requestOptions);
     if (res.ok){
         return await res.json();
     }else{
@@ -58,7 +58,7 @@ export const deleteUser = async (userId) => {
         method: "DELETE"
     }
 
-    const res =  await fetch( API_BASE_URL+ `user/${userId}`, requestOptions);
+    const res =  await fetch( API_BASE_URL+ `users/${userId}`, requestOptions);
     if (res.ok){
         return true;
     }else{
