@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import UsersTable from "./UsersTable";
 import {makeStyles} from '@material-ui/core/styles'
+import TestSocket from "../pages/TestSocket";
 
 const useStyles = makeStyles( (theme) => ({
   wrapper: {
@@ -46,6 +47,9 @@ export default function Router() {
             </Route>
             <Route exact path="/users">
               <UsersTable />
+            </Route>
+            <Route exact path="/test">
+              <TestSocket />
             </Route>
           </Switch>
         </Grid>
