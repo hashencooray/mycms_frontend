@@ -2,7 +2,6 @@ import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
 import React, { useState,useEffect } from 'react';
 import Popup from './basic/Popup';
 import AddIcon from '@material-ui/icons/Add';
-import UsersTable from './UsersTable';
 
 
 const useStyles = makeStyles( theme => ({

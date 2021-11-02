@@ -1,5 +1,5 @@
 import Button from "@restart/ui/esm/Button";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as ReactBootstrap from "react-bootstrap";
 import AddUser from './AddUser';
 import EditIcon from '@material-ui/icons/Edit';
@@ -10,12 +10,10 @@ import { addNewUser, deleteUser, editUser } from "../services/userService";
 import { allUsers } from "../services/generalService";
 import { Typography } from "@material-ui/core";
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
   useParams
 } from "react-router-dom";
+import { createConnnection } from "../services/wsService";
+import MsgSnackBar from "./basic/MsgSnackbar";
 
 export default function UsersTable() {
 
@@ -24,15 +22,28 @@ export default function UsersTable() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
   const [userId, setUserId] = useState(0);
+  const [user, setUser] = useState({});
   const [columnnames, setColumnnames] = useState([]);
 
+  const socket = useRef();
+  const [snackPack, setSnackPack] = useState([]);
+
+  useEffect( () => {
+      socket.current = createConnnection();
+      getMessages();
+  },[]);
+
+  const getMessages = async () => {
+      socket.current.onmessage = (event) => {
+          setSnackPack( (prev) => [...prev, { message: event.data, key: new Date().getTime() }])
+      }
+  }
 
   let { tabletype } = useParams();
   const getAllUsers = async () => {
     const res = await allUsers(tabletype);
     if(res){
       getFields(res);
-      console.log(res)
       setUsers(res);
       setError("");
     }else{
@@ -43,30 +54,33 @@ const getFields = (res) => {
  if(res.length > 0){
    const res1=res[0];
    const columnnames = Object.keys(res1);
-   console.log(columnnames);
+
    setColumnnames(columnnames);
+ }else{
+  setColumnnames([]);
  }
+ 
 
 }
 
-
   useEffect( () => {
     getAllUsers(); 
-  }, [])
+  }, [tabletype])
 
-  const handleEditPopup = (userId) => {
-    setUserId(userId);
+  const handleEditPopup = (user) => {
+    setUserId(user.id);
+    setUser(user);
     setOpenEdit(true);
   }
 
-  const handleDeletePopup = (userId) => {
-    setUserId(userId);
+  const handleDeletePopup = (user) => {
+    setUserId(user.id);
+    setUser(user);
     setOpenDelete(true);
   }
 
   //  add new user to DB
   const handleAddUser = async (values) => {
-    console.log(values)
     const res = await addNewUser(tabletype,values);
     if(res){
       setUserId(0);
@@ -78,6 +92,11 @@ const getFields = (res) => {
 // delete user from DB
 const handleDeleteUser = async () => {
   const res = await deleteUser(tabletype,userId);
+  if(res){
+    setUserId(0);
+    setUser({});
+    await getAllUsers();
+  }
   return res;
 }
 
@@ -86,13 +105,17 @@ const handleEditUser = async (data) => {
   const res = await editUser(tabletype,userId, data);
   if(res){
     setUserId(0);
+    setUser({});
+    await getAllUsers();
   }
   return res;
 }
 
+
   return (
     <div>
-      <EditUser open={openEdit} setOpen={setOpenEdit} handleEditUser={handleEditUser} tabletype={tabletype} columnnames={columnnames} />
+      <MsgSnackBar snackPack={snackPack} setSnackPack={setSnackPack} />
+      <EditUser open={openEdit} content={user} setOpen={setOpenEdit} handleEditUser={handleEditUser} tabletype={tabletype} columnnames={columnnames} />
       <DeleteUser open={openDelete} setOpen={setOpenDelete} handleDeleteUser={handleDeleteUser} />
       <div>
         <h1> {tabletype} Table</h1>
@@ -112,7 +135,7 @@ const handleEditUser = async (data) => {
                 columnnames.length !== 0 ? columnnames.map( (column, index) => 
                   (
                     
-                      <td>{column}</td>
+                      <td key={index}>{column}</td>
                       
                       
                   )
@@ -144,8 +167,8 @@ const handleEditUser = async (data) => {
               }
                       
                       <td style={{display: "flex", justifyContent:"center", alignItems:"center"}}>
-                        <Button onClick={() => handleEditPopup(user.id)} style={{marginRight:16, border:"none"}}> <EditIcon color="primary" style={{fontSize:"24px"}} /> </Button>
-                        <Button onClick={() => handleDeletePopup(user.id)} style={{ border:"none"}}> <DeleteForeverIcon color="secondary" style={{fontSize:"24px"}} /> </Button>
+                        <Button onClick={() => handleEditPopup(user)} style={{marginRight:16, border:"none"}}> <EditIcon color="primary" style={{fontSize:"24px"}} /> </Button>
+                        <Button onClick={() => handleDeletePopup(user)} style={{ border:"none"}}> <DeleteForeverIcon color="secondary" style={{fontSize:"24px"}} /> </Button>
                       </td>
                     </tr>    
                   )

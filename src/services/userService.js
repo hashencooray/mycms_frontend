@@ -8,7 +8,6 @@ export const allUsers = async () => {
     }
 
     const res =await fetch( API_BASE_URL+ `users`, requestOptions)
-    console.log(res.status)
     if (res.ok){
         return await res.json();
     }else{

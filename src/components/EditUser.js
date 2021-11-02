@@ -24,22 +24,24 @@ export default function EditUser(props) {
     const classes = useStyles();
     
     const [error, setError] = useState("");
-    const {open, setOpen, handleEditUser,tabletype,columnnames} = props;
+    const {open, setOpen, handleEditUser,tabletype,columnnames, content} = props;
 
     useEffect( () => {
         if(columnnames) {
             columnnames.forEach(column => {
                 if(column !== "id"){
-                 initial_val[column] = column
- 
+                 initial_val[column] = content[column]
                 }
-               
             });
+            setInitialValues();
         }
-       }, [columnnames])
+       }, [columnnames, content])
 
        const [values, setValues] = useState(initial_val);
 
+    const setInitialValues = () => {
+        setValues(initial_val);
+    }
     const handleClose = () => {
         setOpen(false);
     }

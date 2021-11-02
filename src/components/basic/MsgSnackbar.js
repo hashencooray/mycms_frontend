@@ -27,7 +27,7 @@ export default function MsgSnackBar(props) {
         // Close an active snack when a new one is added
         setOpen(false);
       }
-  }, [snackPack, messageInfo, open]);
+  }, [snackPack, messageInfo, open, setSnackPack]);
 
 //   const handleClick = (message) => () => {
 //     setSnackPack((prev) => [...prev, { message, key: new Date().getTime() }]);
@@ -62,8 +62,8 @@ export default function MsgSnackBar(props) {
         message={messageInfo ? messageInfo.message : undefined}
         action={
           <React.Fragment>
-            <Button color="secondary" size="small" onClick={handleClose}>
-              UNDO
+            <Button color="secondary" size="small" onClick={() => window.location.reload(false)}>
+              Refresh
             </Button>
             <IconButton
               aria-label="close"
