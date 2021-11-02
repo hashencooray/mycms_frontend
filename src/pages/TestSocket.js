@@ -16,7 +16,6 @@ export default function TestSocket() {
         socket.current.onmessage = (event) => {
             setSnackPack( (prev) => [...prev, { message: event.data, key: new Date().getTime() }])
         }
-        console.log(socket.current.onmessage)
     }
 
     return (
