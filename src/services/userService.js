@@ -1,13 +1,14 @@
 import {API_BASE_URL} from '../config/appConfig';
 
 
-export const allUsers = async () => {
+export const allUsers = async (tabletype) => {
 
     const requestOptions = {
         method: "GET"
     }
 
-    const res =await fetch( API_BASE_URL+ `users`, requestOptions)
+    const res =await fetch( API_BASE_URL+ `${tabletype}`, requestOptions)
+    .catch( err => {console.error(err); return [];})
     if (res.ok){
         return await res.json();
     }else{
@@ -26,6 +27,7 @@ export const addNewUser = async (tabletype,data) => {
     }
 
     const res = await fetch( API_BASE_URL+`${tabletype}`, requestOptions)
+    .catch( err => {console.error(err); return false})
     if (res.ok){
         return await res.json();
     }else{
@@ -43,7 +45,8 @@ export const editUser = async (tabletype,userId, data) => {
         body: JSON.stringify(data)
     }
 
-    const res = await fetch( API_BASE_URL+ `${tabletype}/${userId}`, requestOptions);
+    const res = await fetch( API_BASE_URL+ `${tabletype}/${userId}`, requestOptions)
+    .catch( err => {console.error(err); return false})
     if (res.ok){
         return await res.json();
     }else{
@@ -57,7 +60,8 @@ export const deleteUser = async (tabletype,userId) => {
         method: "DELETE"
     }
 
-    const res =  await fetch( API_BASE_URL+ `${tabletype}/${userId}`, requestOptions);
+    const res =  await fetch( API_BASE_URL+ `${tabletype}/${userId}`, requestOptions)
+    .catch( err => {console.error(err); return false})
     if (res.ok){
         return true;
     }else{

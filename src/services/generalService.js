@@ -8,7 +8,7 @@ export const allUsers = async (tabletype) => {
     }
 
     const res =await fetch( API_BASE_URL+ `${tabletype}`, requestOptions)
-    console.log(res.status)
+    .catch( err => {console.error(err); return []})
     if (res.ok){
         return await res.json();
     }else{

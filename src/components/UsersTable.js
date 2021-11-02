@@ -47,7 +47,7 @@ export default function UsersTable() {
       setUsers(res);
       setError("");
     }else{
-      setError("Get users failed.");
+      setError(`Get ${tabletype} failed.`);
     }
   }
 const getFields = (res) => {
@@ -119,11 +119,11 @@ const handleEditUser = async (data) => {
       <DeleteUser open={openDelete} setOpen={setOpenDelete} handleDeleteUser={handleDeleteUser} />
       <div>
         <h1> {tabletype} Table</h1>
-        { error !== "" && (
+        {/* { error !== "" && (
           <Typography variant="subtitle1">
             {error}
           </Typography>
-        )}
+        )} */}
         <div style={{width: "90%",marginBottom:"10px", display:"flex", justifyContent:"flex-end"}}>
           <AddUser  handleAddUser={handleAddUser} tabletype={tabletype} columnnames={columnnames} />
         </div>
@@ -132,7 +132,7 @@ const handleEditUser = async (data) => {
             <thead>
               <tr>
             {
-                columnnames.length !== 0 ? columnnames.map( (column, index) => 
+                error === "" && columnnames.length !== 0 ? columnnames.map( (column, index) => 
                   (
                     
                       <td key={index}>{column}</td>
@@ -140,17 +140,17 @@ const handleEditUser = async (data) => {
                       
                   )
                 ):(
-                  <tr style={{background:"#ffaaaa"}}>
-                    <td style={{color:"red"}} colSpan={4}> No Data.</td>
-                  </tr>
+                  null
                 )
               }
-              <td>actions</td>
+              { error === "" && (
+                <td>actions</td>
+              )}
               </tr>
             </thead>
             <tbody>
               {
-                users.length !== 0 ? users.map( (user, index) => 
+                error === "" && users.length !== 0 ? users.map( (user, index) => 
                   (
                     <tr key={index}>
                       {
