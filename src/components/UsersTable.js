@@ -174,7 +174,7 @@ const handleEditUser = async (data) => {
                   )
                 ):(
                   <tr style={{background:"#ffaaaa"}}>
-                    <td style={{color:"red"}} colSpan={4}> Users not found.</td>
+                    <td style={{color:"red"}} colSpan={4}> {tabletype} not found.</td>
                   </tr>
                 )
               }
