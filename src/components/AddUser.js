@@ -1,7 +1,9 @@
 import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Popup from './basic/Popup';
 import AddIcon from '@material-ui/icons/Add';
+import UsersTable from './UsersTable';
+
 
 const useStyles = makeStyles( theme => ({
     
@@ -19,15 +21,31 @@ const useStyles = makeStyles( theme => ({
 export default function AddUser(props) {
 
     const initial_val = {
-        name:"",
-        age: 0
+        
+            
     }
 
+
+
     const classes = useStyles();
-    const [values, setValues] = useState(initial_val);
+    
     const [open, setOpen] = useState(false);
     const [error, setError] = useState("");
-    const {handleAddUser} = props;
+    const {handleAddUser,tabletype,columnnames} = props;
+
+    useEffect( () => {
+       if(columnnames) {
+           columnnames.forEach(column => {
+               if(column !== "id"){
+                initial_val[column] = column
+
+               }
+              
+           });
+       }
+      }, [columnnames])
+
+      const [values, setValues] = useState(initial_val);
 
     const handleClose = () => {
         setOpen(false);
@@ -54,6 +72,13 @@ export default function AddUser(props) {
         }
     }
 
+    const handleonchange = (e,column) => {
+        const temp = values;
+        temp[column] = e.target.value
+
+        setValues(temp);
+    }
+
     const actions = (
         <>
             <Button variant="contained" color="secondary" onClick={handleClose}>Cancel</Button>
@@ -63,7 +88,7 @@ export default function AddUser(props) {
 
     return (
         <div>
-            <Popup title="Add New User" actions={actions} open={open} setOpen={setOpen}>
+            <Popup title={"Add "+tabletype} actions={actions} open={open} setOpen={setOpen}>
                 {error !== "" && (
                     <Typography variant="caption">
                         {error}
@@ -71,13 +96,26 @@ export default function AddUser(props) {
                 )}
                 
                 <form className={classes.form}>
-                    <TextField className={classes.inputs} value={values.name} onChange={(e) => setValues({...values, name: e.target.value})} label="Name" variant="outlined" />
-                    <TextField id="age" className={classes.inputs} value={values.age} onChange={handleAge} label="age" variant="outlined" />
+                    {
+                columnnames.length !== 0 ? columnnames.map( (column, index) => 
+                  (
+                    column !== "id" ? 
+                       (<TextField className={classes.inputs} value={values[column]} onChange={(e) => handleonchange(e,column)} label={column} variant="outlined" />) 
+        
+                       :null
+               
+                    
+                      
+                  )
+                ):(
+                  <div> no coloumn found</div>
+                )
+              }
                 </form>
             </Popup>
 
             <Button  onClick={() => setOpen(true)} variant="contained" color="primary" endIcon={<AddIcon />}>
-                Add User
+              Add {tabletype}
             </Button>
         </div>
     )

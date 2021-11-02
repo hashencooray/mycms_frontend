@@ -1,5 +1,5 @@
 import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Popup from './basic/Popup';
 
 const useStyles = makeStyles( theme => ({
@@ -18,14 +18,27 @@ const useStyles = makeStyles( theme => ({
 export default function EditUser(props) {
 
     const initial_val = {
-        name:"",
-        age: 0
+       
     }
 
     const classes = useStyles();
-    const [values, setValues] = useState(initial_val);
+    
     const [error, setError] = useState("");
-    const {open, setOpen, handleEditUser} = props;
+    const {open, setOpen, handleEditUser,tabletype,columnnames} = props;
+
+    useEffect( () => {
+        if(columnnames) {
+            columnnames.forEach(column => {
+                if(column !== "id"){
+                 initial_val[column] = column
+ 
+                }
+               
+            });
+        }
+       }, [columnnames])
+
+       const [values, setValues] = useState(initial_val);
 
     const handleClose = () => {
         setOpen(false);
@@ -51,6 +64,12 @@ export default function EditUser(props) {
             setValues({...values, age: parseInt(e.target.value)});
         }
     }
+    const handleonchange = (e,column) => {
+        const temp = values;
+        temp[column] = e.target.value
+
+        setValues(temp);
+    }
 
     const actions = (
         <>
@@ -61,15 +80,28 @@ export default function EditUser(props) {
 
     return (
         <div>
-            <Popup title="Update User" actions={actions} open={open} setOpen={setOpen}>
+            <Popup title={"Add "+tabletype} actions={actions} open={open} setOpen={setOpen}>
                 {error !== "" && (
                     <Typography variant="caption">
                         {error}
                     </Typography>
                 )}
-                <form className={classes.form}>
-                    <TextField className={classes.inputs} value={values.name} onChange={(e) => setValues({...values, name: e.target.value})} label="Name" variant="outlined" />
-                    <TextField className={classes.inputs} value={values.age} onChange={handleAge} label="age" variant="outlined" />
+               <form className={classes.form}>
+                    {
+                columnnames.length !== 0 ? columnnames.map( (column, index) => 
+                  (
+                    column !== "id" ? 
+                       (<TextField className={classes.inputs} value={values[column]} onChange={(e) => handleonchange(e,column)} label={column} variant="outlined" />) 
+        
+                       :null
+               
+                    
+                      
+                  )
+                ):(
+                  <div> no coloumn found</div>
+                )
+              }
                 </form>
             </Popup>
         </div>
