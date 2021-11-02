@@ -45,7 +45,7 @@ export default function Router() {
             <Route exact path="/user/delete">
               <DeleteUser />
             </Route>
-            <Route exact path="/users">
+            <Route exact path="/:tabletype">
               <UsersTable />
             </Route>
             <Route exact path="/test">

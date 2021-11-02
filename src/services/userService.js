@@ -16,7 +16,7 @@ export const allUsers = async () => {
     }
 }
 
-export const addNewUser = async (data) => {
+export const addNewUser = async (tabletype,data) => {
 
     const requestOptions = {
         method: "POST",
@@ -26,7 +26,7 @@ export const addNewUser = async (data) => {
         body: JSON.stringify(data)
     }
 
-    const res = await fetch( API_BASE_URL+ `users`, requestOptions)
+    const res = await fetch( API_BASE_URL+`${tabletype}`, requestOptions)
     if (res.ok){
         return await res.json();
     }else{
@@ -34,7 +34,7 @@ export const addNewUser = async (data) => {
     }
 }
 
-export const editUser = async (userId, data) => {
+export const editUser = async (tabletype,userId, data) => {
 
     const requestOptions = {
         method: "PATCH",
@@ -44,7 +44,7 @@ export const editUser = async (userId, data) => {
         body: JSON.stringify(data)
     }
 
-    const res = await fetch( API_BASE_URL+ `users/${userId}`, requestOptions);
+    const res = await fetch( API_BASE_URL+ `${tabletype}/${userId}`, requestOptions);
     if (res.ok){
         return await res.json();
     }else{
@@ -52,13 +52,13 @@ export const editUser = async (userId, data) => {
     }
 }
 
-export const deleteUser = async (userId) => {
+export const deleteUser = async (tabletype,userId) => {
 
     const requestOptions = {
         method: "DELETE"
     }
 
-    const res =  await fetch( API_BASE_URL+ `users/${userId}`, requestOptions);
+    const res =  await fetch( API_BASE_URL+ `${tabletype}/${userId}`, requestOptions);
     if (res.ok){
         return true;
     }else{

@@ -4,6 +4,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
+
+
+
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
@@ -16,14 +19,18 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+  
+
 export default function Header() {
+  
+
     const classes = useStyles();
     return (
         <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            User Management System
+            Content Management System
           </Typography>
           {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
