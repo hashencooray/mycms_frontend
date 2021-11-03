@@ -37,7 +37,7 @@ export default function EditUser(props) {
         }
        }, [columnnames, content])
 
-       const [values, setValues] = useState(initial_val);
+    const [values, setValues] = useState(initial_val);
 
     const setInitialValues = () => {
         setValues(initial_val);
@@ -67,10 +67,8 @@ export default function EditUser(props) {
         }
     }
     const handleonchange = (e,column) => {
-        const temp = values;
-        temp[column] = e.target.value
-
-        setValues(temp);
+        values[column] = e.target.value
+        setValues({...values});
     }
 
     const actions = (
