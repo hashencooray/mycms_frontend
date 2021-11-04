@@ -6,8 +6,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditUser from "./EditUser";
 import DeleteUser from './DeleteUser';
-import { addNewUser, deleteUser, editUser } from "../services/userService";
-import { allUsers } from "../services/generalService";
+import { addNewUser, deleteUser, editUser, allUsers, getTableColums } from "../services/contentService";
 import { Typography } from "@material-ui/core";
 import {
   useParams
@@ -40,24 +39,26 @@ export default function UsersTable() {
   }
 
   let { tabletype } = useParams();
+
   const getAllUsers = async () => {
+    getFields();
     const res = await allUsers(tabletype);
-    if(res){
-      getFields(res);
+    if(res && !res.error){
       setUsers(res);
       setError("");
     }else{
       setError(`Get ${tabletype} failed.`);
     }
   }
-const getFields = (res) => {
- if(res.length > 0){
-   const res1=res[0];
-   const columnnames = Object.keys(res1);
+const getFields = async () => {
 
-   setColumnnames(columnnames);
+  const res = await getTableColums(tabletype);
+  const columnnames = Object.keys(res);
+
+  if(columnnames.length >0){
+    setColumnnames(columnnames);
  }else{
-  setColumnnames([]);
+    setColumnnames([]);
  }
  
 
